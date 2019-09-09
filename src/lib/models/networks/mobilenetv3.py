@@ -7,6 +7,7 @@ __all__ = ['MobileNetV3', 'mobilenetv3']
 
 BN_MOMENTUM = 0.1
 
+
 def conv_bn(inp, oup, stride, conv_layer=nn.Conv2d, norm_layer=nn.BatchNorm2d, nlin_layer=nn.ReLU):
     return nn.Sequential(
         conv_layer(inp, oup, 3, stride, 1, bias=False),
@@ -118,11 +119,11 @@ class MobileBottleneck(nn.Module):
 
 
 class MobileNetV3(nn.Module):
-    def __init__(self, heads, input_size=224, dropout=0.8, mode='small', width_mult=1.0):
+    def __init__(self, heads, head_conv, input_size=224, dropout=0.8, mode='small', width_mult=1.0):
         super(MobileNetV3, self).__init__()
         self.heads = heads
         self.deconv_with_bias = False
-        self.inplanes = 576 # input channels of deconv layer 'small'-> 576
+        self.inplanes = 576  # input channels of deconv layer 'small'-> 576
         input_channel = 16
         last_channel = 1280
         if mode == 'large':
@@ -302,22 +303,21 @@ class MobileNetV3(nn.Module):
                     nn.init.constant_(m.bias, 0)
             # print('=> init final conv weights from normal distribution')
             for head in self.heads:
-              final_layer = self.__getattr__(head)
-              for i, m in enumerate(final_layer.modules()):
-                  if isinstance(m, nn.Conv2d):
-                      # nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-                      # print('=> init {}.weight as normal(0, 0.001)'.format(name))
-                      # print('=> init {}.bias as 0'.format(name))
-                      if m.weight.shape[0] == self.heads[head]:
-                          if 'hm' in head:
-                              nn.init.constant_(m.bias, -2.19)
-                          else:
-                              nn.init.normal_(m.weight, std=0.001)
-                              nn.init.constant_(m.bias, 0)
+                final_layer = self.__getattr__(head)
+                for i, m in enumerate(final_layer.modules()):
+                    if isinstance(m, nn.Conv2d):
+                        # nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                        # print('=> init {}.weight as normal(0, 0.001)'.format(name))
+                        # print('=> init {}.bias as 0'.format(name))
+                        if m.weight.shape[0] == self.heads[head]:
+                            if 'hm' in head:
+                                nn.init.constant_(m.bias, -2.19)
+                            else:
+                                nn.init.normal_(m.weight, std=0.001)
+                                nn.init.constant_(m.bias, 0)
             #pretrained_state_dict = torch.load(pretrained)
-            url = model_urls['resnet{}'.format(num_layers)]
-            pretrained_state_dict = model_zoo.load_url(url)
-            print('=> loading pretrained model {}'.format(url))
+            pretrained_state_dict = torch.load(
+                'D:\\mobilenetv3_small_67.4.pth.tar')
             self.load_state_dict(pretrained_state_dict, strict=False)
         else:
             print('=> imagenet pretrained model dose not exist')
@@ -335,11 +335,10 @@ class MobileNetV3(nn.Module):
 
 def get_mobile_net_v3(num_layers, heads, head_conv):
     # TODO num_layers -> large or small mobilenet
-    model = MobileNetV3('small')
+    model = MobileNetV3(heads, head_conv)
     model._initialize_weights()
-    state_dict = torch.load('mobilenetv3_small_67.4.pth.tar')
-    model.load_state_dict(state_dict, strict=False)
     return model
+
 
 # if __name__ == '__main__':
 #     net = mobilenetv3()
