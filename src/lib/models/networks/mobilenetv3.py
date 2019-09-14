@@ -317,7 +317,7 @@ class MobileNetV3(nn.Module):
                                 nn.init.constant_(m.bias, 0)
             #pretrained_state_dict = torch.load(pretrained)
             pretrained_state_dict = torch.load(
-                'D:\\mobilenetv3_small_67.4.pth.tar')
+                '/projects/CenterNet/src/lib/models/networks/mobilenetv3_small_67.4.pth.tar')
             self.load_state_dict(pretrained_state_dict, strict=False)
         else:
             print('=> imagenet pretrained model dose not exist')

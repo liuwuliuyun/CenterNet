@@ -1,10 +1,3 @@
 cd ../src
 # train
-python main.py ctdet --exp_id coco_mobile_v3_small --arch mobile --batch_size 114 --master_batch 18 --lr 5e-4 --gpus 0 --num_workers 16
-# test
-python test.py ctdet --exp_id coco_mobile_v3_small --arch mobile --keep_res --resume
-# flip test
-python test.py ctdet --exp_id coco_mobile_v3_small --arch mobile --keep_res --resume --flip_test 
-# multi scale test
-python test.py ctdet --exp_id coco_mobile_v3_small --arch mobile --keep_res --resume --flip_test --test_scales 0.5,0.75,1,1.25,1.5
-cd ..
+python3 main.py ctdet --exp_id coco_mobile_v3_small --arch mobile --batch_size 32  --lr 5e-4 --gpus 0 --num_workers 4
