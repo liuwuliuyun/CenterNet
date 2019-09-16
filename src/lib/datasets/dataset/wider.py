@@ -20,15 +20,15 @@ class Wider(data.Dataset):
 
   def __init__(self, opt, split):
     super(Wider, self).__init__()
-    self.data_dir = os.path.join(opt.data_dir, 'widerface')
-    self.img_dir = os.path.join(self.data_dir, 'WIDER_{}'.format(split))
+    self.data_dir = os.path.join(opt.data_dir, 'wider_face')
+    self.img_dir = os.path.join(self.data_dir, 'images/WIDER_{}'.format(split))
     self.annot_path = os.path.join(
           self.data_dir, 'wider_face_split', 
           'wider_face_{}_annot_coco_style.json'.format(split))
     self.max_objs = 1968
     self.class_name = [
       '__background__', 'face']
-    self._valid_ids = [1, 2]
+    self._valid_ids = [0, 1]
     self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
     self.voc_color = [(v // 32 * 64 + 64, (v // 8) % 4 * 64, v % 8 * 32) \
                       for v in range(1, self.num_classes + 1)]
