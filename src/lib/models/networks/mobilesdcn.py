@@ -235,23 +235,28 @@ class MobileNetV3DCN(nn.Module):
             [4, 4, 4],
         )
 
-        for head in sorted(self.heads):
-            num_output = self.heads[head]
+        for head in self.heads:
+            classes = self.heads[head]
             if head_conv > 0:
                 fc = nn.Sequential(
-                    nn.Conv2d(256, head_conv,
-                              kernel_size=3, padding=1, bias=True),
-                    nn.ReLU(inplace=True),
-                    nn.Conv2d(head_conv, num_output,
-                              kernel_size=1, stride=1, padding=0))
+                  nn.Conv2d(64, head_conv,
+                    kernel_size=3, padding=1, bias=True),
+                  nn.ReLU(inplace=True),
+                  nn.Conv2d(head_conv, classes, 
+                    kernel_size=1, stride=1, 
+                    padding=0, bias=True))
+                if 'hm' in head:
+                    fc[-1].bias.data.fill_(-2.19)
+                else:
+                    fill_fc_weights(fc)
             else:
-                fc = nn.Conv2d(
-                    in_channels=256,
-                    out_channels=num_output,
-                    kernel_size=1,
-                    stride=1,
-                    padding=0
-                )
+                fc = nn.Conv2d(64, classes, 
+                  kernel_size=1, stride=1, 
+                  padding=0, bias=True)
+                if 'hm' in head:
+                    fc.bias.data.fill_(-2.19)
+                else:
+                    fill_fc_weights(fc)
             self.__setattr__(head, fc)
 
         self._initialize_weights()
