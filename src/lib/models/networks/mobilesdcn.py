@@ -371,9 +371,9 @@ def get_mobile_net_v3_dcn(num_layers, heads, head_conv):
     return model
 
 
-if __name__ == '__main__':
-    model = get_mobile_net_v3_dcn(0,{'hm':2, 'wh':2*80, 'reg':2},64).cuda()
-    input_size=(1, 3, 224, 224)
+# if __name__ == '__main__':
+#     model = get_mobile_net_v3_dcn(0,{'hm':2, 'wh':2*80, 'reg':2},64).cuda()
+#     input_size=(1, 3, 224, 224)
 #     # pip install --upgrade git+https://github.com/kuan-wang/pytorch-OpCounter.git
 #     from thop import profile
 #     flops, params = profile(net, input_size=input_size)
@@ -381,5 +381,5 @@ if __name__ == '__main__':
 #     # print(params)
 #     print('Total params: %.2fM' % (params/1000000.0))
 #     print('Total flops: %.2fM' % (flops/1000000.0))
-    x = torch.randn(input_size).cuda()
-    out = model(x)
+    # x = torch.randn(input_size).cuda()
+    # out = model(x)
