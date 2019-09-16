@@ -11,6 +11,7 @@ from .dataset.coco import COCO
 from .dataset.pascal import PascalVOC
 from .dataset.kitti import KITTI
 from .dataset.coco_hp import COCOHP
+from .dataset.wider import Wider
 
 
 dataset_factory = {
@@ -18,6 +19,7 @@ dataset_factory = {
   'pascal': PascalVOC,
   'kitti': KITTI,
   'coco_hp': COCOHP
+  'wider': Wider
 }
 
 _sample_factory = {
