@@ -120,7 +120,7 @@ class MobileBottleneck(nn.Module):
 
 class MobileNetV3DCN(nn.Module):
     def __init__(self, heads, head_conv, input_size=224, dropout=0.8, mode='small', width_mult=1.0):
-        super(MobileNetV3, self).__init__()
+        super(MobileNetV3DCN, self).__init__()
         self.heads = heads
         self.deconv_with_bias = False
         self.inplanes = 576  # input channels of deconv layer 'small'-> 576
@@ -345,7 +345,7 @@ def get_mobile_net_v3_dcn(num_layers, heads, head_conv):
 
 
 if __name__ == '__main__':
-    model = get_mobile_net_v3_dcn()
+    model = get_mobile_net_v3_dcn(0,{'hm':2, 'wh':2*80, 'reg':2},64)
     input_size=(1, 3, 224, 224)
 #     # pip install --upgrade git+https://github.com/kuan-wang/pytorch-OpCounter.git
 #     from thop import profile
