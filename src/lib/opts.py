@@ -279,7 +279,7 @@ class opts(object):
     if opt.resume and opt.load_model == '':
       model_path = opt.save_dir[:-4] if opt.save_dir.endswith('TEST') \
                   else opt.save_dir
-      opt.load_model = os.path.join(model_path, 'model_last.pth')
+      opt.load_model = os.path.join(model_path, 'model_best.pth')
     return opt
 
   def update_dataset_info_and_set_heads(self, opt, dataset):
