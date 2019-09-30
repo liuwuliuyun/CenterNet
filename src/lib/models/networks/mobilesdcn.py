@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import os
 import math
 import logging
-from DCNv2.dcn_v2 import DCN
+#from .DCNv2.dcn_v2 import DCN
 
 __all__ = ['MobileNetV3', 'mobilenetv3']
 

@@ -270,7 +270,7 @@ class opts(object):
 
     opt.root_dir = os.path.join(os.path.dirname(__file__), '..', '..')
     # data dir for coco dataset
-    opt.data_dir = os.path.join('/')
+    opt.data_dir = os.path.join('/home/yliu/Dataset/')
     opt.exp_dir = os.path.join(opt.root_dir, 'exp', opt.task)
     opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
     opt.debug_dir = os.path.join(opt.save_dir, 'debug')
